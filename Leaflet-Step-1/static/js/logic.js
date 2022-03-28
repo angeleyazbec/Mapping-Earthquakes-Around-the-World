@@ -20,7 +20,9 @@ function createFeatures(earthquakeData) {
                       <hr>
                       <p>${new Date(feature.properties.time)}</p>
                       <hr>
-                      <b>Magnitude: </b> ${feature.properties.mag}`);
+                      <b>Magnitude: </b> ${feature.properties.mag}
+                      <br>
+                      <b>Depth: </b> ${feature.geometry.coordinates[2]}`);
     }
 
     //this function picks the colors for the circle data points
