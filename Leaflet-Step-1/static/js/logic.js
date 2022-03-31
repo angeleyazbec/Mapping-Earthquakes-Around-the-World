@@ -142,7 +142,7 @@ var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/re
     let div = L.DomUtil.create("div", "info legend");
 
     // set up the intervals
-    intervals = [0, 10, 30, 50, 70, 90];
+    intervals = [-10, 10, 30, 50, 70, 90];
     
     // set the colors for the intervals
       colors = [
@@ -158,12 +158,7 @@ var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/re
     // with a colored square for each interval
     for(var i = 0; i < intervals.length; i++)
     {
-      // inner html that sets the square for each interval and label
-      div.innerHTML += "<i style='background': "
-          + colors[i]
-          + "'></i>"
-          + intervals[i]
-          + (intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+");
+      div.innerHTML += `<i style="background: ${colors[i]}"></i>${intervals[i]}${(intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+")}`
     }
     return div;
     };

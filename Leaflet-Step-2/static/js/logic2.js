@@ -148,44 +148,32 @@ let legend = L.control({
 
 // add the properties for the legend
 legend.onAdd = function() {
-// div for the legend to appear in the page
-let div = L.DomUtil.create("div", "info legend");
+  // div for the legend to appear in the page
+  let div = L.DomUtil.create("div", "info legend");
 
-// set up the intervals
-intervals = [0, 10, 30, 50, 70, 90];
+  // set up the intervals
+  intervals = [-10, 10, 30, 50, 70, 90];
+  
+  // set the colors for the intervals
+    colors = [
+        "#F8BBD0",
+        "#F06292",
+        "#E91E63",
+        "#C2185B",
+        "#880E4F", 
+        "#b80000"     
+    ];
+  
+  // loop through the intervals and the colors and generate a label
+  // with a colored square for each interval
+  for(var i = 0; i < intervals.length; i++)
+  {
+    div.innerHTML += `<i style="background: ${colors[i]}"></i>${intervals[i]}${(intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+")}`
+  }
+  return div;
+  };
 
-
-function Color(depth){
-  return depth > 90 ? "#b80000":
-  depth > 70 ? "#880E4F":
-  depth > 50 ? "#C2185B":
-  depth > 30 ? "#E91E63":
-  depth > 10 ? "#F06292" :
-  "#F8BBD0";
-}
-/*/ set the colors for the intervals
-colors = [
-    "#F8BBD0",
-    "#F06292",
-    "#E91E63",
-    "#C2185B",
-    "#880E4F", 
-    "#b80000"     
-]; */
-
-// loop through the intervals and the colors and generate a label
-// with a colored square for each interval
-for(var i = 0; i < intervals.length; i++)
-{
-    // inner html that sets the square for each interval and label
-    div.innerHTML += "<i style='background': "
-        + Color[i]
-        + "'></i>"
-        + intervals[i]
-        + (intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+");
-}
-return div;
-};
 // add the legend to the map
 legend.addTo(myMap);
+
 
