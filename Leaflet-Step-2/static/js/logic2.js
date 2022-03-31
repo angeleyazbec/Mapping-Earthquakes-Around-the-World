@@ -63,7 +63,7 @@ tectonicplates.addTo(myMap);
 // variable to hold the earthquake layer
 let earthquakes = new L.layerGroup();
 
-// get the data for the earthquakes from teh USGS API and populate the layergroup
+// get the data for the earthquakes from the USGS API and populate the layergroup
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson")
 .then(function(earthquakeData){
     // console log to check if the data loaded
@@ -72,12 +72,14 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geoj
     // make a function that chooses the color of the data point
     function getColor(depth){
       if (depth > 90)
-        return "#880E4F"
+        return "#b80000"
       else if (depth > 70)
-        return "#C2185B"
+        return "#880E4F"
       else if (depth > 50)
-        return "#E91E63"
+        return "#C2185B"
       else if (depth > 30)
+        return "#E91E63"
+      else if (depth > 10)
         return "#F06292"
       else 
         return "#F8BBD0"
@@ -141,38 +143,48 @@ L.control
 
 //add the legend to the map
 let legend = L.control({
-    position: "bottomright"
-  });
+  position: "bottomright"
+});
 
-  // add the properties for the legend
-  legend.onAdd = function() {
-  // div for the legend to appear in the page
-  let div = L.DomUtil.create("div", "info legend");
+// add the properties for the legend
+legend.onAdd = function() {
+// div for the legend to appear in the page
+let div = L.DomUtil.create("div", "info legend");
 
-  // set up the intervals
-  let intervals = [10, 30, 50, 70, 90];
+// set up the intervals
+intervals = [0, 10, 30, 50, 70, 90];
 
-  // set the colors for the intervals
-  let colors = [
-      "#F8BBD0",
-      "#F06292",
-      "#E91E63",
-      "#C2185B",
-      "#880E4F",      
-  ];
 
-  // loop through the intervals and the colors and generate a label
-  // with a colored square for each interval
-  for(var i = 0; i < intervals.length; i++)
-  {
-      // inner html that sets the square for each interval and label
-      div.innerHTML += "<i style='background': "
-          + colors[i]
-          + "'></i>"
-          + intervals[i]
-          + (intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+");
-  }
-  return div;
+function Color(depth){
+  return depth > 90 ? "#b80000":
+  depth > 70 ? "#880E4F":
+  depth > 50 ? "#C2185B":
+  depth > 30 ? "#E91E63":
+  depth > 10 ? "#F06292" :
+  "#F8BBD0";
+}
+/*/ set the colors for the intervals
+colors = [
+    "#F8BBD0",
+    "#F06292",
+    "#E91E63",
+    "#C2185B",
+    "#880E4F", 
+    "#b80000"     
+]; */
+
+// loop through the intervals and the colors and generate a label
+// with a colored square for each interval
+for(var i = 0; i < intervals.length; i++)
+{
+    // inner html that sets the square for each interval and label
+    div.innerHTML += "<i style='background': "
+        + Color[i]
+        + "'></i>"
+        + intervals[i]
+        + (intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+");
+}
+return div;
 };
 // add the legend to the map
 legend.addTo(myMap);

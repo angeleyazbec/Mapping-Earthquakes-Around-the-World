@@ -31,12 +31,14 @@ function createFeatures(earthquakeData) {
     {
       switch (true) {
         case depth > 90:
-          return "#880E4F"
+          return "#b80000"
         case depth > 70:
-          return "#C2185B"
+          return "#880E4F"
         case depth > 50:
-          return "#E91E63"
+          return "#C2185B"
         case depth > 30:
+          return "#E91E63"
+        case depth > 10:
           return "#F06292"
         default:
           return "#F8BBD0";
@@ -136,34 +138,36 @@ var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/re
 
   // add the properties for the legend
   legend.onAdd = function() {
-  // div for the legend to appear in the page
-  let div = L.DomUtil.create("div", "info legend");
+    // div for the legend to appear in the page
+    let div = L.DomUtil.create("div", "info legend");
 
-  // set up the intervals
-  let intervals = [10, 30, 50, 70, 90];
-
-  // set the colors for the intervals
-  let colors = [
-      "#F8BBD0",
-      "#F06292",
-      "#E91E63",
-      "#C2185B",
-      "#880E4F",      
-  ];
-
-  // loop through the intervals and the colors and generate a label
-  // with a colored square for each interval
-  for(var i = 0; i < intervals.length; i++)
-  {
+    // set up the intervals
+    intervals = [0, 10, 30, 50, 70, 90];
+    
+    // set the colors for the intervals
+      colors = [
+          "#F8BBD0",
+          "#F06292",
+          "#E91E63",
+          "#C2185B",
+          "#880E4F", 
+          "#b80000"     
+      ];
+    
+    // loop through the intervals and the colors and generate a label
+    // with a colored square for each interval
+    for(var i = 0; i < intervals.length; i++)
+    {
       // inner html that sets the square for each interval and label
       div.innerHTML += "<i style='background': "
           + colors[i]
           + "'></i>"
           + intervals[i]
           + (intervals[i + 1] ? "km &ndash;" + intervals[i + 1] + "km<br>" : "km+");
-  }
-  return div;
-};
+    }
+    return div;
+    };
+
 // add the legend to the map
 legend.addTo(myMap);
 }
